@@ -1,0 +1,16 @@
+name = "LibroOptimizacion"
+uuid = "d59b3bec-d1f6-498a-8120-b773086c7a7f"
+authors = ["egbaquela "]
+version = "0.1.0"
+
+[deps]
+Books = "939d5c6b-51ae-42e7-97ca-7564d0d4ad91"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+HiGHS = "87dc4568-4c63-4d18-b0c0-bb2238e4078b"
+JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
+
+[compat]
+Books = "3.0.1"
+DataFrames = "1.7.0"
+HiGHS = "1.13.0"
+JuMP = "1.23.6"

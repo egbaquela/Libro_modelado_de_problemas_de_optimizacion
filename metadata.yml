@@ -1,0 +1,22 @@
+---
+title: Modelado y resolución de problemas de optimización
+subtitle: Un (no tan introductorio) texto sobre programación lineal (y otras yerbas) para ingenieros industriales y en sistemas, basado en Julia.
+author:
+  - Enrique Gabriel Baquela
+
+html-license: <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+tex-license: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+
+bibliography: files/bibliography.bib
+
+# Only used in PDF.
+titlepage-top: >
+  \begin{tabular}{l}
+  Enrique Gabriel Baquela\\
+  Grupo de Investigación en Optimización y Simulación Industrial (GISOI) - Facultad Regional San Nicolás (FRSN) - Universidad Tecnológica Nacional (UTN)\\
+  \\
+  \end{tabular}
+
+titlepage-bottom: >
+  \url{https://booktemplate.huijzer.xyz}
+---
