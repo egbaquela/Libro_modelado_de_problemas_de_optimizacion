@@ -2,8 +2,11 @@
 
   [projects.default]
   contents = [
+    "dedicatoria",
     "prefacio",
+    "agradecimientos",
     "introduccion",
+    "planificacion_produccion",
     "apendices",
     "references",
   ]

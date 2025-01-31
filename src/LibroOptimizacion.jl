@@ -1,9 +1,5 @@
 module LibroOptimizacion
 
-#greet() = print("Hello World!")
-
-#end # module LibroOptimizacion
-
 using Reexport: @reexport
 @reexport using Books:
     build_all,
