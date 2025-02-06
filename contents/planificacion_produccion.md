@@ -1,5 +1,6 @@
 # Planificación de la producción {#sec:planificacion_produccion}
 
+## ¿Que es una problema de planificación de la producción?
 Un problema de planificación de la producción es quizás el tipo de problemas mas sencillo de entender, sobre todo porque el modelado es bastante directo respecto de la narración del problema. En este tipo de problemas, hay que decidir cuanto producir de determinados bienes o servicios con el fin de tratar de maximizar el beneficio asociado a dicha producción. Ahora bien, para producir los bienes necesitamos consumir recursos. Cada producto tiene asociada una tasa de consumo de recursos y, a su vez, tenemos disponible una determinada cantidad de recursos. Por lo tanto, hay que obtener el mayor beneficio posible dado los recursos disponibles (es decir, no podemos consumir mas recursos que los que disponemos).
 
 ## Problema
@@ -201,4 +202,20 @@ code = """
 sco(code)
 ```
 
+Genial, vemos que dice que `Termination status : OPTIMAL`. Esto significa que el _solver_ pudo encontrar la solución óptima del problema. El _summary_ no da mas información sobre la solución, pero implica leer todo el reporte. Podemos inspeccionar cada parte con algunas funciones dedicadas:
 
+```jl
+code = """
+    termination_status(model_v2)
+    """
+sco(code)
+```
+
+Vemos que nos dice que la solución es óptima. ¿Cual es el valor de la función objetivo?
+
+```jl
+code = """
+    objective_value(model_v2)
+    """
+sco(code)
+```
