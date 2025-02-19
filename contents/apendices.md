@@ -1,23 +1,21 @@
 # Apéndices {#sec:apendices}
 
-This is the appendix.
+## Julia en Windows {#sec:apendice_julia_en_windows}
 
-```jl
-using DataFrames
-code = """
-    df = DataFrame(a=[1, 2], b=[3, 4])
-    Options(df, caption="A table.", label=nothing)
-    """
-repeat(sco(code), 4)
+## Usando Julia desde la terminal {#sec:apendice_julia_desde_terminal}
 
-```
+## Usando Julia mediante scripts {#sec:apendice_julia_con_scripts}
+
+## Usando Julia con Pluto {#sec:apendice_julia_con_pluto}
+
+## Usando Julia mediante Google Colab {#sec:apendice_julia_con_colab}
 
 ## Modelando problemas con Julia {#sec:modelado_con_julia}
 Para resolver problemas de Programación Lineal con Julia, es necesario recurrir a algún paquetes (o biblioteca) que nos permita trasladar el formalismo de la PL en forma fácil y, a su vez, conectarnos a un solver. En este libro utilizamos la bilioteca de modelado [JuMP](https://jump.dev/) y el solver [HiGHS](https://www.maths.ed.ac.uk/hall/HiGHS/).
 
-[JuMP](https://jump.dev/) es una biblioteca de modelado que permite escribir modelos de PL en Julia de forma muy similar a la escritura matemática estandar. En ese sentido, sabiendo como escribir las ecuaciones en papel y lápiz, es poco lo que se necesita aprender de Julia para resolver problemas de PL.
+_JuMP_ es una biblioteca de modelado que permite escribir modelos de PL en Julia de forma muy similar a la escritura matemática estandar. En ese sentido, sabiendo como escribir las ecuaciones en papel y lápiz, es poco lo que se necesita aprender de Julia para resolver problemas de PL.
 
-[HiGHS](https://www.maths.ed.ac.uk/hall/HiGHS/) es un solver Open-Source desarrollado por un equipo de investigadores de la Universidad de Edimburgo. Dentro del grupo de los solvers no comerciales es, junto con SCIP, uno de los solvers mas potentes para resolver problemas de PL y PL Entera-Mixta. Si bien inferior en velocidad respecto de solvers como CPLEX y Gurobi, es adecuado para una gran cantidad de aplicaciones en la industria.
+_HiGHS_ es un solver Open-Source desarrollado por un equipo de investigadores de la Universidad de Edimburgo. Dentro del grupo de los solvers no comerciales es, junto con SCIP, uno de los solvers mas potentes para resolver problemas de PL y PL Entera-Mixta. Si bien inferior en velocidad respecto de solvers como CPLEX y Gurobi, es adecuado para una gran cantidad de aplicaciones en la industria.
 
 Para instalarlos, en una terminal de _julia_, tipeamos:
 
@@ -108,3 +106,5 @@ code = """
     """
 sco(code)
 ```
+
+## Modelando problemas con Excel (u otra planilla de cálculo) {#sec:modelado_con_planilla de cálculo}
