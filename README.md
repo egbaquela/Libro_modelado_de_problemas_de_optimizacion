@@ -34,15 +34,12 @@ Si vas a usar el libro en tus clases, para un artículo académico, o para cualq
 
 En formato BIBTEX:
 
-> @book{baquela2025librooptimizacion,
->
->   title = {Modelado y resolución de problemas de optimización},
->
->   author = {Enrique Gabriel Baquela},
->
->   url = {https://github.com/egbaquela/libro_optimizacion},
->
->   year = {2025}
->
-> }
+```
+@book{baquela2025librooptimizacion,
+  title = {Modelado y resolución de problemas de optimización},
+  author = {Enrique Gabriel Baquela},
+  url = {https://github.com/egbaquela/libro_optimizacion},
+  year = {2025}
+}
+```
 
