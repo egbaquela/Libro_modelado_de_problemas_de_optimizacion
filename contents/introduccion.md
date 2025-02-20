@@ -15,13 +15,14 @@ Si bien las particulares de un problema de optimización depende en si de la sit
 
 Los problemas de optimización aparecen por doquier, y de muchas maneras diferentes, en la vida diaria de las organizaciones. A veces sus componentes son fácilmente identificables, otras veces no. A veces, la información necesaria para armar el modelo de optimización se conoce con certeza, pero a veces (la mayoría de las veces) hay mucha incertidumbre. Algunas decisiones se toman una sola vez, otras se repiten rutinariamente todos los días. Si bien siempre apuntamos a alcanzar la mejor solución posible, en muchos nos casos nos conformamos con buenas soluciones cuando el costo y/o el tiempo necesarios para calcularla son prohibitivos.
 
+
 ## Modelado matemático de un problema de optimización
 Los problemas de optimización, independientemente de su naturaleza, pueden modelarse mediante haciendonós las siguientes preguntas:
 
 * ¿Cual es la meta a lograr?
 * ¿Que factores puedo controlar para lograr esa meta?
 * ¿Que factores no puedo controlar pero definen _cuanta meta_ consigo?
-* ¿Que factores no puedo controlar pero restringen la forma en que puedo gestionar los factores controlables?
+* ¿Que factores no puedo controlar pero condicionan la forma en que puedo gestionar los factores controlables?
 
 Apliquémoslo al siguiente problema:
 
@@ -33,7 +34,7 @@ Apliquémoslo al siguiente problema:
 
 ¿Que factores no puedo controlar pero definen _cuanta meta_ consigo? En este caso, los beneficios. No puedo controlarlos, es decir, no puedo modificarlos. Pero ciertamente, terminan definiendo el beneficio total que obtengo. ¿Que es el beneficio total?, la suma del beneficio de cada mesa multiplicado por la cantidad de mesas que fabrico mas el beneficio de cada silla multiplicado por la cantidad de sillas que fabrico. Solo puedo decidir sobre las cantidades a fabricar, pero los beneficios son la otra mitad de la ecuación.
 
-¿Que factores no puedo controlar pero me limitan? En este caso, dos tipos de factores. La cantidad de tablones chicos y grandes que necesita cada silla y cada mesa (esto es, una tasa de consumo de tablones por unidad de producto), y la cantidad de tablones disponibles para consumir. ¿Y por que me limitan?, bueno, si tengo 20 tablones chicos, puedo fabricar cualquier cantidad de mesas y sillas siempre y cuando no consuma mas de 20 tablones chicos. Y lo mismo aplica a los grandes. Es decir, el consumo de recursos no puede ser mayor a la disponibilidad de recursos. 
+¿Que factores no puedo controlar pero me condicionan? En este caso, dos tipos de factores. La cantidad de tablones chicos y grandes que necesita cada silla y cada mesa (esto es, una tasa de consumo de tablones por unidad de producto), y la cantidad de tablones disponibles para consumir. ¿Y por que me limitan?, bueno, si tengo 20 tablones chicos, puedo fabricar cualquier cantidad de mesas y sillas siempre y cuando no consuma mas de 20 tablones chicos. Y lo mismo aplica a los grandes. Es decir, el consumo de recursos no puede ser mayor a la disponibilidad de recursos. 
 
 Matematicemos esto. Puedo controlar, es decir, puedo decidir sobre, la cantidad de mesas y la cantidad de sillas que fabrico. Es mas, quiero saber cuanto fabricar de cada uno. Es decir, estas son las incognitas de mi problema. En términos de problemas de optimización, le damos el nombre de _variables de decisión_. Y como son incognitas, vamos a representarlas, en este caso, con la letra $x$. Tengo, entonces, dos _variables de decisión_:
 
@@ -54,7 +55,7 @@ Esta es la _función objetivo_ de nuestro problema. Recordemos que nuestra meta 
 
 * Max $Z = 10x_{mesa} + 8x_{silla}$
 
-Ahora bien, sería interesante fabricar $10000$ mesas y $25000$ sillas, pero no puedo. Estoy restringido por mis recursos. Dijimos antes que no puedo consumir mas recursos que los que tengo disponibles. Tanto la disponibilidad de tablones chicos como la cantidad de tablones chicos que necesita cada unidad (es decir, el consumo unitario) me ponen un límite a la cantidad de mesas y sillas a fábricar. Lo mismo pasa con los tablones grandes. La _restricción_ de los tablones chicos podemos escribirl de la siguiente manera:
+Ahora bien, sería interesante fabricar $10000$ mesas y $25000$ sillas, pero no puedo. Estoy condicionado por los recursos que necesito para fabricar las mesas y sillas. Dijimos antes que no puedo consumir mas recursos que los que tengo disponibles. Tanto la disponibilidad de tablones chicos como la cantidad de tablones chicos que necesita cada unidad (es decir, el consumo unitario) me ponen un límite a la cantidad de mesas y sillas a fábricar. Lo mismo pasa con los tablones grandes. La _restricción_ de los tablones chicos podemos escribirl de la siguiente manera:
 
 * $x_{mesa} + 2x_{silla} \leq 20$
 
@@ -102,6 +103,14 @@ Este tipo de soluciones, que no violan ninguna restricción, se denominan _soluc
 *  $Z = 10 \cdot 2 + 8 \cdot 1 = 28$
 
 Es decir, las dos soluciones son factibles, pero de las dos, la segunda es mejor que la primera. Ahora bien, hay mas soluciones factibles que estás dos que dimos de ejemplo. De hecho, como por ahora estamos permitiendo tener valores fraccionarios, como $(2,5; 3,23558)$, en realidad hay infinitas soluciones posibles. Y, obviamente, revisar y comparar infinitas soluciones nos tomaría un tiempo infinito. Si, no parece muy buena idea la de inspeccionar todas las soluciones. Pero para ello, podemos hacer uso de los _algoritmos de resolución_ de problemas de optimización. 
+
+Fijemosnos que la formulación matemática se puede entender en tres partes:
+
+* La decisión en si a tomar (cuanto fabricar de sillas y cuando de mesas) se codifica en forma de _variables de decisión_.
+* La meta a alcanzar se representa mediante la _función objetivo_.
+* La forma de determinar si una solución, es decir, una combinación de mesas y sillas, es válida, se representa mediante el sistema de inecuaciones (las restricciones).
+
+Prestemos atención al último punto. Las restricciones del problema funcionan como una especie de patrón, de plantilla, para generar planes de producción (nuestras soluciones, la cantidad de mesas y sillas a fabricar) que se puedan llevar a la práctica (es decir, que sean _factibles_). El enfoque utilizado para modelar (y en secciones siguientes, para resolver) el problema no consiste en enumerar todos los posibles planes de fabricación válidos y compararlos uno por uno (es decir, con el llamado método de _fuerza bruta_), sino en plantear las condiciones que debe cumplir todo plan válido. Es decir, en vez de listar todos los planes, solo indicamos los condicionantes comunes a todos los planes.
 
 
 ## Instalación y configuración de las herramientas de resolución
