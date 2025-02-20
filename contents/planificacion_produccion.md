@@ -4,7 +4,7 @@
 Un problema de planificación de la producción es quizás el tipo de problemas mas sencillo de entender, sobre todo porque el modelado es bastante directo respecto de la narración del problema. En este tipo de problemas, hay que decidir cuanto producir de determinados bienes o servicios con el fin de tratar de maximizar el beneficio asociado a dicha producción. Ahora bien, para producir los bienes necesitamos consumir recursos. Cada producto tiene asociada una tasa de consumo de recursos y, a su vez, tenemos disponible una determinada cantidad de recursos. Por lo tanto, hay que obtener el mayor beneficio posible dado los recursos disponibles (es decir, no podemos consumir mas recursos que los que disponemos).
 
 ## Problema
-Pensemos en el siguiente problema:
+Pensemos en el siguiente problema[^origen_winco]:
 
 > Winco vende cuatro tipos de productos. Para satisfacer las demandas de los clientes, hay que producir exactamente $950$ unidades en total y por lo menos $400$ unidades del producto 4.
 >
@@ -219,3 +219,5 @@ code = """
     """
 sco(code)
 ```
+
+[^origen_winco]: Desde hace varios años vengo utilizando este problema en mis clases como disparador, pero no pude encontrar la referencia bibliográfica. Tenía la impresión que lo había extraido del Hillier, pero no, no lo encontré ahí. Si alguien puede pasarme la referencia, se los agradezco.

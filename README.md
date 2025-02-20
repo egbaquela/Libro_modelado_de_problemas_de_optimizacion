@@ -30,7 +30,7 @@ Para mas información acerca de las opciones de _Books.jl_, ver [https://huijzer
 ## ¿Como citar el libro?
 Si vas a usar el libro en tus clases, para un artículo académico, o para cualquier otro material, por favor citalo de la siguiente manera:
 
-> Baquela, E. G. (2025), Modelado y resolución de problemas de optimización. Recuperado de https://github.com/egbaquela/libro_optimizacion
+> Baquela, E. G. (2025), Modelado y resolución de problemas de optimización. Recuperado de https://github.com/egbaquela/Libro_modelado_de_problemas_de_optimizacion
 
 En formato BIBTEX:
 
@@ -38,7 +38,7 @@ En formato BIBTEX:
 @book{baquela2025librooptimizacion,
   title = {Modelado y resolución de problemas de optimización},
   author = {Enrique Gabriel Baquela},
-  url = {https://github.com/egbaquela/libro_optimizacion},
+  url = {https://github.com/egbaquela/Libro_modelado_de_problemas_de_optimizacion},
   year = {2025}
 }
 ```
