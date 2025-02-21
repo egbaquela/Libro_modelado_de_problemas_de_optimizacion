@@ -355,5 +355,10 @@ Ahora bien, ¿no me convendría fabricar alguna mesa? Bueno, vemos. Para fabrica
 
 Lo cual vemos que es claramente menor al beneficio obtenido fabricando solamente sillas. Tampoco podemos fabricar mas de $10$ sillas, porque consumimos los $20$ tablones chicos y los $20$ tablones grandes disponibles.
 
+## Modelado genérico en forma compacta
+Título extraño tiene esta sección, pero se va a terminar entendiendo que significa. Crucemos los dedos :-P .
+
+El problema, como lo modelamos en _Julia_, está bien modelado. Crea el modelo que teníamos en mente y lo resuelve. Si es un modelo que voy a resolver una única vez y después nunca mas lo utilizo, está genial. Pero si tengo que usarlo en forma repetida, no es la mejor manera de modelarlo. ¿Que pasa si cambia el beneficio de un producto?. ¿Y si se agrega una nuevo producto? ¿y si quisiera considerar las horas hombres necesarias para construir los productos? En todos estos casos, deberíamos modificar el modelo en si, lo cual puede ser tedioso y, pero aún, proclive a generar errores. Una buena práctica para modelos repetitivos es la de separar los datos del modelo, convirtiendo el modelo a su forma genérica y compacta, de manera tal que sirva para resolver todos los problemas similares.
+
 ## ¿Como sigue este libro?
 A partir del siguiente capítulo, el libro se enfocará en tratar familias de problemas, presentando herramientas adicionales y/o metodologías de modelado a medida que los problemas lo requieran. El enfoque será el de presentar la narrativa del problema, discutir acerca de su modelado matemático, luego presentar la implementación en _Julia_ y el análisis de los resultados. 
