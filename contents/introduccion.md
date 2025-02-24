@@ -356,9 +356,23 @@ Ahora bien, ¿no me convendría fabricar alguna mesa? Bueno, vemos. Para fabrica
 Lo cual vemos que es claramente menor al beneficio obtenido fabricando solamente sillas. Tampoco podemos fabricar mas de $10$ sillas, porque consumimos los $20$ tablones chicos y los $20$ tablones grandes disponibles.
 
 ## Modelado genérico en forma compacta
-Título extraño tiene esta sección, pero se va a terminar entendiendo que significa. Crucemos los dedos :-P .
+Título extraño tiene esta sección, pero creo se va a terminar entendiendo que significa. Crucemos los dedos :-P .
 
 El problema, como lo modelamos en _Julia_, está bien modelado. Crea el modelo que teníamos en mente y lo resuelve. Si es un modelo que voy a resolver una única vez y después nunca mas lo utilizo, está genial. Pero si tengo que usarlo en forma repetida, no es la mejor manera de modelarlo. ¿Que pasa si cambia el beneficio de un producto?. ¿Y si se agrega una nuevo producto? ¿y si quisiera considerar las horas hombres necesarias para construir los productos? En todos estos casos, deberíamos modificar el modelo en si, lo cual puede ser tedioso y, pero aún, proclive a generar errores. Una buena práctica para modelos repetitivos es la de separar los datos del modelo, convirtiendo el modelo a su forma genérica y compacta, de manera tal que sirva para resolver todos los problemas similares.
+
+Empecemos convirtiendo el modelo matemático a un modelo genérico. Empecemos con nuestras variables de decisión. Actualmente tenemos una variable que indica cuanto fabricar del producto _mesa_ ($x_{mesa}$)y otra que nos dice cuanto fabricar del producto _silla_ ($x_silla$). Si tenemos que incluir en nuestro plan de producción otro producto, por ejemplo una cama, agregaríamos una nueva variable que indique la cantidad a fabricar de este nuevo producto ($x_{cama}$ en este caso). Y si tuviéramos un cuarto producto, agregaríamos una cuarta variable, y así sucesivamente. Podríamos, entonces, definir un conjunto $I$ que contiene los nombres de todos los productos a fabricar. Y definir todas nuestras varaibles genericamente como variables del tipo $x_{i}$, en el cual $i$ toma valores del conjunto de productos $I$. Por ejemplo, si $I=\{silla, mesa, cama, alacena\}$, entonces tengo cuatro variables del tipo $x_{i}$: $x_{silla}$, $x_{mesa}$, $x_{cama}$, $x_{alacena}$. De la misma manera, podría pensar que los beneficios asociados a cada producto se corresponden con un beneficio genérico  $beneficio_{i}$. Entonces, $beneficio_{mesa}=10$ y $beneficio_{silla}=8$. Veamos como va quedando nuestro modelo:
+
+> ------ Datos ------
+>
+> $I=\{mesa, silla\}$
+>
+> $beneficio_{i} = [10; 8]$
+>
+> ------ Problema ------
+>
+> Max $Z = \sum_{i \in I} beneficio_{i} \cdot x_{i}$
+
+La función objetivo queda simplificada ahora mediante una _sumatoria_. Lo que queresmos indicar con $\sum_{i \in I} beneficio_{i} \cdot x_{i}$ es que, para cada elemento $i$ del conjunto $I$, multipliquemos su beneficio por el valor de la variable, y sumemos todas estas multiplicaciones. Es decir, dado que aquí tengo dos elementos, _mesa_ y _silla_, multiplicar el beneficio de la _mesa_ por la $x_{mesa}$, el beneficio de la _silla_ por la $x_{silla}$ y luego sumemos estos dos números. Esto equivale a nuestra función objetivo original.
 
 ## ¿Como sigue este libro?
 A partir del siguiente capítulo, el libro se enfocará en tratar familias de problemas, presentando herramientas adicionales y/o metodologías de modelado a medida que los problemas lo requieran. El enfoque será el de presentar la narrativa del problema, discutir acerca de su modelado matemático, luego presentar la implementación en _Julia_ y el análisis de los resultados. 
