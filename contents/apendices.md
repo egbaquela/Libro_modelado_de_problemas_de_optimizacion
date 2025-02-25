@@ -107,4 +107,4 @@ code = """
 sco(code)
 ```
 
-## Modelando problemas con Excel (u otra planilla de cálculo) {#sec:modelado_con_planilla de cálculo}
+## Modelando problemas con Excel (u otra planilla de cálculo) {#sec:modelado_con_planilla_de_calculo}
