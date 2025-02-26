@@ -11,7 +11,7 @@ Los problemas de optimización, independientemente de su naturaleza, pueden mode
 
 Apliquémoslo al siguiente problema:
 
-> Tengo un taller que produce mesas y sillas. Hay mucha demanda, así que todo lo que fabrico se vende. Cada mesa fabricada (y vendida) me proporciona una beneficio de \$10 y cada silla de \$8. Fabricar una mesa requiere de 1 tablon grande y 4 tablones chicos. Fabricar una silla de 2 tablones grandes y 2 tablones chicos. Tengo 20 tablones de cada tipo. ¿Que debería fabricar para tener el mayor beneficio económico posible?
+> Tengo un taller que produce mesas y sillas. Hay mucha demanda, así que todo lo que fabrico se vende. Cada mesa fabricada (y vendida) me proporciona una beneficio de \$10 y cada silla de \$8. Fabricar una mesa requiere de 4 tablones grande y 1 tablón chicos. Fabricar una silla de 2 tablones grandes y 2 tablones chicos. Tengo 20 tablones de cada tipo. ¿Que debería fabricar para tener el mayor beneficio económico posible?
 
 ¿Cual es la meta a lograr?, bueno, acá es bastante sencillo, tener el mayor beneficio posible. Fijemosno que no queremos un buen beneficio, un beneficio aceptable, o un gran beneficio. Queremos el mayor beneficio posible. Es decir, nuestra meta es _maximizar el beneficio_, asegurarnos que no existe otra forma de producir mesas y sillas dados los recursos de los que disponemos que permita tener un beneficio mayor.
 
@@ -40,7 +40,7 @@ Esta es la _función objetivo_ de nuestro problema. Recordemos que nuestra meta 
 
 * Max $Z = 10x_{mesa} + 8x_{silla}$
 
-Ahora bien, sería interesante fabricar $10000$ mesas y $25000$ sillas, pero no puedo. Estoy condicionado por los recursos que necesito para fabricar las mesas y sillas. Dijimos antes que no puedo consumir mas recursos que los que tengo disponibles. Tanto la disponibilidad de tablones chicos como la cantidad de tablones chicos que necesita cada unidad (es decir, el consumo unitario) me ponen un límite a la cantidad de mesas y sillas a fábricar. Lo mismo pasa con los tablones grandes. La _restricción_ de los tablones chicos podemos escribirl de la siguiente manera:
+Ahora bien, sería interesante fabricar $10000$ mesas y $25000$ sillas, pero no puedo. Estoy condicionado por los recursos que necesito para fabricar las mesas y sillas. Dijimos antes que no puedo consumir mas recursos que los que tengo disponibles. Tanto la disponibilidad de tablones chicos como la cantidad de tablones chicos que necesita cada unidad (es decir, el consumo unitario) me ponen un límite a la cantidad de mesas y sillas a fábricar. Lo mismo pasa con los tablones grandes. La _restricción_ de los tablones chicos podemos escribirla de la siguiente manera:
 
 * $x_{mesa} + 2x_{silla} \leq 20$
 
@@ -347,14 +347,85 @@ El problema, como lo modelamos en _Julia_, está bien modelado. Crea el modelo q
 
 Empecemos convirtiendo el modelo matemático a un modelo genérico. Empecemos con nuestras variables de decisión. Actualmente tenemos una variable que indica cuanto fabricar del producto _mesa_ ($x_{mesa}$)y otra que nos dice cuanto fabricar del producto _silla_ ($x_silla$). Si tenemos que incluir en nuestro plan de producción otro producto, por ejemplo una cama, agregaríamos una nueva variable que indique la cantidad a fabricar de este nuevo producto ($x_{cama}$ en este caso). Y si tuviéramos un cuarto producto, agregaríamos una cuarta variable, y así sucesivamente. Podríamos, entonces, definir un conjunto $I$ que contiene los nombres de todos los productos a fabricar. Y definir todas nuestras varaibles genericamente como variables del tipo $x_{i}$, en el cual $i$ toma valores del conjunto de productos $I$. Por ejemplo, si $I=\{silla, mesa, cama, alacena\}$, entonces tengo cuatro variables del tipo $x_{i}$: $x_{silla}$, $x_{mesa}$, $x_{cama}$, $x_{alacena}$. De la misma manera, podría pensar que los beneficios asociados a cada producto se corresponden con un beneficio genérico  $beneficio_{i}$. Entonces, $beneficio_{mesa}=10$ y $beneficio_{silla}=8$. Veamos como va quedando nuestro modelo:
 
-> ------ Datos ------
+> ------------------------
+>
+> ------ *Datos* ------
 >
 > $I=\{mesa, silla\}$
 >
 > $beneficio_{i} = [10; 8]$
 >
-> ------ Problema ------
+> ------ *Problema* ------
 >
 > Max $Z = \sum_{i \in I} beneficio_{i} \cdot x_{i}$
+>
+> ------------------------
 
 La función objetivo queda simplificada ahora mediante una _sumatoria_. Lo que queresmos indicar con $\sum_{i \in I} beneficio_{i} \cdot x_{i}$ es que, para cada elemento $i$ del conjunto $I$, multipliquemos su beneficio por el valor de la variable, y sumemos todas estas multiplicaciones. Es decir, dado que aquí tengo dos elementos, _mesa_ y _silla_, multiplicar el beneficio de la _mesa_ por la $x_{mesa}$, el beneficio de la _silla_ por la $x_{silla}$ y luego sumemos estos dos números. Esto equivale a nuestra función objetivo original.
+
+Respecto de las restricciones, podemos hacer un razonamiento similar. Podemos tomar el consumo de tablones grandes y expresarlo como sumatoria. Si llamamos al coeficiente que multiplica a las variables en esa restricción como $estg$ (algo así como _estandar grande_, es decir, la cantidad de tablones grandes necesarios para producir una unidad de producto), podríamos escribir la siguiente sumatoria: $\sum_{i \in I}estg_{i} \cdot x_{i}$. Y lo mismo para los tablones chicos, pero llamando a los coeficientes $estc$: $\sum_{i \in I}estc_{i} \cdot x_{i}$. El modelo (parcial) quedaría así:
+
+
+> ------------------------
+>
+> ------ *Datos* ------
+>
+> $I=\{mesa, silla\}$
+>
+> $beneficio_{i} = [10; 8]$
+>
+> $estg_{i} = [4;2]$
+>
+> $estc_{i} = [1;2]$
+>
+> ------ *Problema* ------
+>
+> Max $Z = \sum_{i \in I} beneficio_{i} \cdot x_{i}$
+>
+> SA:
+>
+> $\sum_{i \in I}estg_{i} \cdot x_{i} \leq 20$
+>
+> $\sum_{i \in I}estc_{i} \cdot x_{i} \leq 20$
+>
+> ------------------------
+
+Nos faltaría agregar que las _variables de decisión_ deben ser _no negativas_. No podemos listar cada variable y hacerla mayor o igual a cero, ya que en ese caso no estaríamos "comprimiendo" el modelo. Así que hagamos uso del operador $\forall$, el cual significa "_para todo_". Las restricciones de no negatividad la podríamos espresar como:
+
+> $x_{i} \geq 0, \forall i \in I$
+
+Lo que esto significa es: para cada uno de los valores $i$ existentes en $I$, hacer que la $x$ asociada sea mayor o igual a cero. Es decir, dado que en nuestro problem $I=\{mesa, silla\}$, la expresión anterior se traduce en:
+
+> $x_{mesa} \geq 0$
+>
+> $x_{silla} \geq 0$
+
+Es decir, para cada $i$ (mesa y silla), armamos una restricción. El modelo completo nos quedaría como:
+
+> ------------------------
+>
+> ------ *Datos* ------
+>
+> $I=\{mesa, silla\}$
+>
+> $beneficio_{i} = [10; 8]$
+>
+> $estg_{i} = [4;2]$
+>
+> $estc_{i} = [1;2]$
+>
+> ------ *Problema* ------
+>
+> Max $Z = \sum_{i \in I} beneficio_{i} \cdot x_{i}$
+>
+> SA:
+>
+> $\sum_{i \in I}estg_{i} \cdot x_{i} \leq 20$
+>
+> $\sum_{i \in I}estc_{i} \cdot x_{i} \leq 20$
+>
+> $x_{i} \geq 0, \forall i \in I$
+>
+> ------------------------
+
+Ahora bien, le podemos dar una nueva vuelta de tuerca. Si vemos las dos restricciones de recursos (la de tablones grandes y la de tablones chicos) las dos son muy parecidas. Es decir, el símbolo de comparación es, en las dos, el menor o igual ($\leq$). A la izquierda del símbolo, tengo sumatorias parecidas, solo cambia el coeficiente ($estg$ en una, $estc$ en la otra). Y del lado derecho, tenemos números, constantes, que representan la disponibilidad del recurso (en este caso, disponemos de $20$ unidades de cada recurso, pero no hay ningún inconveniente en que los dos números sean diferentes). Es decir, la estructura es similar, y se repite _por cada_ recurso. _Por cada_ recurso, eso suena parecido a lo que hicimos con las restricciones de _no negatividad_. Es decir, podríamos utilizar el operador $\forall$ para escribir las dos restricciones de recursos una sola vez. Para ello, hagamos algunos cambios. Así como definimos el conjunto $I$ de productos, definamos el conjunto $R$ de recursos. En nuestro caso, $R=\{tablongrande; tablonchico\}$. Y definamos el coeficiente del estandar en forma genérica, mediante dos subíndices: est_{i,r}, donde $i \in I$ y $r \in R$. Es decir, si $i=mesa$ y $r=tablongrande$, el coeficiente asociado es 4, es decir: $est_{mesa, tablongrande}=4$ 
