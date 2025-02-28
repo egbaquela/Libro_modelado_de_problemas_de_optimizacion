@@ -334,7 +334,7 @@ sco(code)
 
 Es decir, consumimos todos los recursos disponibles para producir solo sillas, obteniendo de esto el máximo beneficio posible. Esta consulta acerca de cuantos recursos consumimos solo la podemos realizar, al menos en esta forma, si declaramos la restricción con nombre (el parámetro opcional de _\@constraint_).
 
-Ahora bien, ¿no me convendría fabricar alguna mesa? Bueno, vemos. Para fabricar una única mesa, voy a necesitar $1$ tablón chico y $4$ tablones grandes. Estos tablones, dado que tengo una cantidad limitada, los voy a tener que dejar de fabricar algunas sillas. En términos de tablones chicos, una mesa es equivalente a media silla (la silla requiere el doble de estos tablones), pero en términos de tablones grandes, la mesa equivale a dos sillas. Es decir, para producir una mesa, debo dejar de producir dos sillas. La solución entonces sería $(1;8)$. El beneficio asociado sería:
+Ahora bien, ¿no me convendría fabricar alguna mesa? Bueno, veamos. Para fabricar una única mesa, voy a necesitar $1$ tablón chico y $4$ tablones grandes. A estos tablones, dado que tengo una cantidad limitada, los voy a tener que dejar de usar en algunas sillas. En términos de tablones chicos, una mesa es equivalente a media silla (la silla requiere el doble de estos tablones), pero en términos de tablones grandes, la mesa equivale a dos sillas ($4$ contra $2$). Es decir, para producir una mesa, debo dejar de producir dos sillas. La solución entonces sería $(1;8)$. El beneficio asociado sería:
 
 > $10 \cdot 1 + 8 \cdot 8 = 74$
 
@@ -343,11 +343,10 @@ Lo cual vemos que es claramente menor al beneficio obtenido fabricando solamente
 ## Modelado genérico en forma compacta
 Título extraño tiene esta sección, pero creo se va a terminar entendiendo que significa. Crucemos los dedos :-P .
 
-El problema, como lo modelamos en _Julia_, está bien modelado. Crea el modelo que teníamos en mente y lo resuelve. Si es un modelo que voy a resolver una única vez y después nunca mas lo utilizo, está genial. Pero si tengo que usarlo en forma repetida, no es la mejor manera de modelarlo. ¿Que pasa si cambia el beneficio de un producto?. ¿Y si se agrega una nuevo producto? ¿y si quisiera considerar las horas hombres necesarias para construir los productos? En todos estos casos, deberíamos modificar el modelo en si, lo cual puede ser tedioso y, pero aún, proclive a generar errores. Una buena práctica para modelos repetitivos es la de separar los datos del modelo, convirtiendo el modelo a su forma genérica y compacta, de manera tal que sirva para resolver todos los problemas similares.
+El problema, como lo modelamos en _Julia_, está bien modelado. Crea el modelo que teníamos en mente y lo resuelve. Si es un modelo que voy a resolver una única vez y después nunca mas lo utilizo, está genial. Pero si tengo que usarlo en forma repetida, no es la mejor manera de modelarlo. ¿Que pasa si cambia el beneficio de un producto?. ¿Y si se agrega una nuevo producto? ¿Y si quisiera considerar las horas hombres necesarias para construir los productos? En todos estos casos, deberíamos modificar el modelo en si, lo cual puede ser tedioso y, pero aún, proclive a generar errores. Una buena práctica para modelos repetitivos es la de separar los datos del modelo, convirtiendo el modelo a su forma genérica y compacta, de manera tal que sirva para resolver todos los problemas similares.
 
 Empecemos convirtiendo el modelo matemático a un modelo genérico. Empecemos con nuestras variables de decisión. Actualmente tenemos una variable que indica cuanto fabricar del producto _mesa_ ($x_{mesa}$)y otra que nos dice cuanto fabricar del producto _silla_ ($x_silla$). Si tenemos que incluir en nuestro plan de producción otro producto, por ejemplo una cama, agregaríamos una nueva variable que indique la cantidad a fabricar de este nuevo producto ($x_{cama}$ en este caso). Y si tuviéramos un cuarto producto, agregaríamos una cuarta variable, y así sucesivamente. Podríamos, entonces, definir un conjunto $I$ que contiene los nombres de todos los productos a fabricar. Y definir todas nuestras varaibles genericamente como variables del tipo $x_{i}$, en el cual $i$ toma valores del conjunto de productos $I$. Por ejemplo, si $I=\{silla, mesa, cama, alacena\}$, entonces tengo cuatro variables del tipo $x_{i}$: $x_{silla}$, $x_{mesa}$, $x_{cama}$, $x_{alacena}$. De la misma manera, podría pensar que los beneficios asociados a cada producto se corresponden con un beneficio genérico  $beneficio_{i}$. Entonces, $beneficio_{mesa}=10$ y $beneficio_{silla}=8$. Veamos como va quedando nuestro modelo:
 
-> ------------------------
 >
 > ------ *Datos* ------
 >
@@ -359,14 +358,12 @@ Empecemos convirtiendo el modelo matemático a un modelo genérico. Empecemos co
 >
 > Max $Z = \sum_{i \in I} beneficio_{i} \cdot x_{i}$
 >
-> ------------------------
 
 La función objetivo queda simplificada ahora mediante una _sumatoria_. Lo que queresmos indicar con $\sum_{i \in I} beneficio_{i} \cdot x_{i}$ es que, para cada elemento $i$ del conjunto $I$, multipliquemos su beneficio por el valor de la variable, y sumemos todas estas multiplicaciones. Es decir, dado que aquí tengo dos elementos, _mesa_ y _silla_, multiplicar el beneficio de la _mesa_ por la $x_{mesa}$, el beneficio de la _silla_ por la $x_{silla}$ y luego sumemos estos dos números. Esto equivale a nuestra función objetivo original.
 
 Respecto de las restricciones, podemos hacer un razonamiento similar. Podemos tomar el consumo de tablones grandes y expresarlo como sumatoria. Si llamamos al coeficiente que multiplica a las variables en esa restricción como $estg$ (algo así como _estandar grande_, es decir, la cantidad de tablones grandes necesarios para producir una unidad de producto), podríamos escribir la siguiente sumatoria: $\sum_{i \in I}estg_{i} \cdot x_{i}$. Y lo mismo para los tablones chicos, pero llamando a los coeficientes $estc$: $\sum_{i \in I}estc_{i} \cdot x_{i}$. El modelo (parcial) quedaría así:
 
 
-> ------------------------
 >
 > ------ *Datos* ------
 >
@@ -388,7 +385,7 @@ Respecto de las restricciones, podemos hacer un razonamiento similar. Podemos to
 >
 > $\sum_{i \in I}estc_{i} \cdot x_{i} \leq 20$
 >
-> ------------------------
+
 
 Nos faltaría agregar que las _variables de decisión_ deben ser _no negativas_. No podemos listar cada variable y hacerla mayor o igual a cero, ya que en ese caso no estaríamos "comprimiendo" el modelo. Así que hagamos uso del operador $\forall$, el cual significa "_para todo_". Las restricciones de no negatividad la podríamos espresar como:
 
@@ -402,7 +399,6 @@ Lo que esto significa es: para cada uno de los valores $i$ existentes en $I$, ha
 
 Es decir, para cada $i$ (mesa y silla), armamos una restricción. El modelo completo nos quedaría como:
 
-> ------------------------
 >
 > ------ *Datos* ------
 >
@@ -426,6 +422,46 @@ Es decir, para cada $i$ (mesa y silla), armamos una restricción. El modelo comp
 >
 > $x_{i} \geq 0, \forall i \in I$
 >
-> ------------------------
 
-Ahora bien, le podemos dar una nueva vuelta de tuerca. Si vemos las dos restricciones de recursos (la de tablones grandes y la de tablones chicos) las dos son muy parecidas. Es decir, el símbolo de comparación es, en las dos, el menor o igual ($\leq$). A la izquierda del símbolo, tengo sumatorias parecidas, solo cambia el coeficiente ($estg$ en una, $estc$ en la otra). Y del lado derecho, tenemos números, constantes, que representan la disponibilidad del recurso (en este caso, disponemos de $20$ unidades de cada recurso, pero no hay ningún inconveniente en que los dos números sean diferentes). Es decir, la estructura es similar, y se repite _por cada_ recurso. _Por cada_ recurso, eso suena parecido a lo que hicimos con las restricciones de _no negatividad_. Es decir, podríamos utilizar el operador $\forall$ para escribir las dos restricciones de recursos una sola vez. Para ello, hagamos algunos cambios. Así como definimos el conjunto $I$ de productos, definamos el conjunto $R$ de recursos. En nuestro caso, $R=\{tablongrande; tablonchico\}$. Y definamos el coeficiente del estandar en forma genérica, mediante dos subíndices: est_{i,r}, donde $i \in I$ y $r \in R$. Es decir, si $i=mesa$ y $r=tablongrande$, el coeficiente asociado es 4, es decir: $est_{mesa, tablongrande}=4$ 
+Ahora bien, le podemos dar una nueva vuelta de tuerca. Si vemos las dos restricciones de recursos (la de tablones grandes y la de tablones chicos) las dos son muy parecidas. Es decir, el símbolo de comparación es, en las dos, el menor o igual ($\leq$). A la izquierda del símbolo, tengo sumatorias parecidas, solo cambia el coeficiente ($estg$ en una, $estc$ en la otra). Y del lado derecho, tenemos números, constantes, que representan la disponibilidad del recurso (en este caso, disponemos de $20$ unidades de cada recurso, pero no hay ningún inconveniente en que los dos números sean diferentes). Es decir, la estructura es similar, y se repite _por cada_ recurso. _Por cada_ recurso, eso suena parecido a lo que hicimos con las restricciones de _no negatividad_. Es decir, podríamos utilizar el operador $\forall$ para escribir las dos restricciones de recursos una sola vez. Para ello, hagamos algunos cambios. Así como definimos el conjunto $I$ de productos, definamos el conjunto $R$ de recursos. En nuestro caso, $R=\{tablongrande; tablonchico\}$. Y definamos el coeficiente del estandar en forma genérica, mediante dos subíndices: est_{i,r}, donde $i \in I$ y $r \in R$. Es decir, si $i=mesa$ y $r=tablongrande$, el coeficiente asociado es 4, es decir: $est_{mesa, tablongrande}=4$. Entonces, nuestro modelo quedaría como:
+
+>
+> ------ *Datos* ------
+>
+> $I=\{mesa, silla\}$
+>
+> $R=\{tablongrande, tablonchico\}$
+>
+> $beneficio_{i} = [10; 8]$
+>
+> $est_{r,i} = \begin{equation}
+					\begin{bmatrix}
+						4 & 2\\
+						1 & 2
+					\end{bmatrix}
+				\end{equation}$
+>
+> $disponibilidad_{r}= [20; 20]$
+>
+> ------ *Problema* ------
+>
+> Max $Z = \sum_{i \in I} beneficio_{i} \cdot x_{i}$
+>
+> SA:
+>
+> $\sum_{i \in I}est_{r,i} \cdot x_{i} \leq disponibilidad_{r}, \forall r \in R$
+>
+> $x_{i} \geq 0, \forall i \in I$
+>
+
+Observemos que, ahora, las dos restricciones quedaron condensadas en una sola. Y el problema en si está definido en forma genérica, sin ningún dato real. Ok, si, muy lindo, pero para que sirve esto. Volvamos al mundo de _Julia_.
+
+## Modelado genérico en forma compacta con Julia
+
+
+
+## Llenando el modelo en Julia con datos externos
+> \- Todo muy lindo, pero todavía tengo que cargar todos los datos a mano en _Julia_. Si, nos ahorramos un poco de tiempo, pero tampoco es la gran cosa.
+>
+> \- Te estás olvidando de una cosa mi ciela. Hoy por hoy, los datos suelen estar almacenados en bases de datos, planillas de cálculo o en algún otro medio. Y si no lo están todavía, se pueden empezar a relevar y almancenar.
+
