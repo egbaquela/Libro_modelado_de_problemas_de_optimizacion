@@ -223,7 +223,7 @@ code = """
 sco(code)
 ```
 
-Si, escribiendo el nombre de la variable que almacena el modelo, _Julia_ nos muestra un resumen del mismo. Creemos la varaible _xsilla_ ahora, y mostremos el resumen del modelo:
+Si, escribiendo el nombre de la variable que almacena el modelo, _Julia_ nos muestra un resumen del mismo. Creemos la variable _xsilla_ ahora, y mostremos el resumen del modelo:
 
 ```jl
 code = """
@@ -458,10 +458,16 @@ Observemos que, ahora, las dos restricciones quedaron condensadas en una sola. Y
 
 ## Modelado genérico en forma compacta con Julia
 
+## Obteniendo mas información del modelo
+> \- Todo muy lindo, pero medio un lío todo esto, ¿no? Es cierto, luego de modelar matemáticamente el problema y resolverlo, obtengo la mejor decisión, la decisión que debería tomar para que mi beneficio sea el máximo posible. Esto, en muchas decisiones, puede tener un impacto altísimo. Pero, mas allá de eso, ¿no obtengo anda más?
+>
+> \- Bueno, puedo analizar la solución, lo cual me genera información extra que me ayuda a entender y/o mejorar el desempeño del sistema analizado.
 
 
 ## Llenando el modelo en Julia con datos externos
 > \- Todo muy lindo, pero todavía tengo que cargar todos los datos a mano en _Julia_. Si, nos ahorramos un poco de tiempo, pero tampoco es la gran cosa.
 >
 > \- Te estás olvidando de una cosa mi ciela. Hoy por hoy, los datos suelen estar almacenados en bases de datos, planillas de cálculo o en algún otro medio. Y si no lo están todavía, se pueden empezar a relevar y almancenar.
+
+
 
