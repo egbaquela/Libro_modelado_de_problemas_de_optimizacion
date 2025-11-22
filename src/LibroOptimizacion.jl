@@ -24,7 +24,7 @@ include("data.jl")
 This function is called during CI.
 """
 function build()
-    println("Building Example Book")
+    println("Building Book")
     # To avoid publishing broken websites.
     fail_on_error = true
     gen(; fail_on_error)
